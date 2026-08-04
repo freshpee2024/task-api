@@ -1,0 +1,15 @@
+const errorHandler = (err, req, res, next) => {
+
+    if (err.name === "CastError") {
+        return res.status(400).json({
+            message: "Invalid task ID"
+        });
+    }
+
+    res.status(500).json({
+        message: err.message || "Server Error"
+    });
+
+};
+
+module.exports = errorHandler;
