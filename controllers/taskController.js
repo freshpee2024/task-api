@@ -58,27 +58,45 @@ const getTask = async (req, res, next) => {
 
 
 // UPDATE task
-const updates = {};
+const updateTask = async (req, res, next) => {
+    try {
 
-if (req.body.title !== undefined) {
-    updates.title = req.body.title;
-}
+        const updates = {};
 
-if (req.body.completed !== undefined) {
-    updates.completed = req.body.completed;
-}
+        if (req.body.title !== undefined) {
+            updates.title = req.body.title;
+        }
 
-const task = await Task.findOneAndUpdate(
-    {
-        _id: req.params.id,
-        user: req.user.id
-    },
-    updates,
-    {
-        new: true
+        if (req.body.completed !== undefined) {
+            updates.completed = req.body.completed;
+        }
+
+        const task = await Task.findOneAndUpdate(
+            {
+                _id: req.params.id,
+                user: req.user.id
+            },
+            updates,
+            {
+                new: true
+            }
+        );
+
+        if (!task) {
+            return res.status(404).json({
+                message: "Task not found"
+            });
+        }
+
+        res.json({
+            message: "Task updated successfully",
+            task
+        });
+
+    } catch (error) {
+        next(error);
     }
-);
-
+};
 
 // DELETE task
 const deleteTask = async (req, res, next) => {
