@@ -17,11 +17,11 @@ const {
 
 router.get("/", protect, getTasks);
 
-router.post("/", protect, createTask);
+router.post("/", protect, validateTask, createTask);
 
 router.get("/:id", protect, getTask);
 
-router.put("/:id", protect, updateTask);
+router.put("/:id", protect, validateTask, updateTask);
 
 router.delete("/:id", protect, deleteTask);
 
