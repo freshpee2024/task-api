@@ -21,6 +21,7 @@ const createTask = async (req, res, next) => {
         const task = await Task.create({
             title: req.body.title,
             priority: req.body.priority || "Medium",
+            dueDate: req.body.dueDate,
             user: req.user.id
         });
 
@@ -74,6 +75,10 @@ const updateTask = async (req, res, next) => {
 
         if (req.body.priority !== undefined) {
             updates.priority = req.body.priority;
+        }
+
+        if (req.body.dueDate !== undefined) {
+            updates.dueDate = req.body.dueDate;
         }
 
         const task = await Task.findOneAndUpdate(
