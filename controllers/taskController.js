@@ -20,6 +20,7 @@ const createTask = async (req, res, next) => {
     try {
         const task = await Task.create({
             title: req.body.title,
+            priority: req.body.priority || "Medium",
             user: req.user.id
         });
 
@@ -69,6 +70,10 @@ const updateTask = async (req, res, next) => {
 
         if (req.body.completed !== undefined) {
             updates.completed = req.body.completed;
+        }
+
+        if (req.body.priority !== undefined) {
+            updates.priority = req.body.priority;
         }
 
         const task = await Task.findOneAndUpdate(
